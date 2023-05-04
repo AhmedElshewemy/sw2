@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
 const port = 5000;
-app.set("view engine", "ejs");
-app.use(express.static("public"));
+
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const allArticleRoutes = require("./routes/allBlogs");
+
 
 
 
@@ -48,10 +50,10 @@ app.get("/", (req, res) => {
   res.redirect("/all-articles");
 });
 app.get("/add-new-article", (req, res) => {
-  res.render("add-new-article", { title: "Add new article" });
+  res.render("add-new-article");
 });
 
-app.use('/all-articles',allArticleRoutes)
+app.use('/articles',allArticleRoutes)
 app.use((req, res) => {
   res.status(404).send("<h1>Error 404 <br> Page not found</h1>");
 });

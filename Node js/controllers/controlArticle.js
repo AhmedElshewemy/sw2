@@ -6,11 +6,14 @@ const Article = require("../models/blogSchema");
 const allBlogs =  (req, res) => {
     Article.find()
       .then((result) => {
-        res.render("index", { title: "Home", arrArt: result });
-      })
+       
+        res.status(200).json(result);
+    })
+
       .catch((err) => {
         console.log(err);
       });
+      
   }
 
 
@@ -20,15 +23,72 @@ const saveArticle =  (req, res) => {
     article
       .save()
       .then((result) => {
-        res.redirect("/all-articles");
+        res.status(200).json(result);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  const updateArticle=((req,res) => {
+
+        // Article.updateOne(
+        //     { title:req.params.title }, // filter to target the specific book and chapter
+        //     { $push: { comment: { name: req.body.comment.name, text: req.body.comment.text } } } // use the positional operator to update the pages property of the matched chapter
+        //   )
+        Article.findOneAndUpdate(
+         {title: req.params.title},req.body
+        )
+          .then(result => {
+           // console.log(result);
+            res.status(200).json("done");
+          })
+          .catch((error) => {
+            console.log(error);
+          });  
+    
+  })
+
+
+  const addCommentArticle=((req,res) => {
+  //  const newComment = { name: req.body.name, comment: req.body.comment };
+    Article.findOneAndUpdate(
+     {title: req.params.title},{ $push: { comments: req.body} },
+    )
+      .then(result => {
+       // console.log(result);
+        res.status(200).json("done");
+      })
+      .catch((error) => {
+        console.log(error);
+      });  
+
+})
+
+
+  const deleteArticle=((req,res) => {
+
+    // Article.updateOne(
+    //     { title:req.params.title }, // filter to target the specific book and chapter
+    //     { $push: { comment: { name: req.body.comment.name, text: req.body.comment.text } } } // use the positional operator to update the pages property of the matched chapter
+    //   )
+    Article.deleteOne(
+     {title: req.params.title})
+      .then(result => {
+       // console.log(result);
+        res.status(200).json("done");
+      })
+      .catch((error) => {
+        console.log(error);
+      });  
+
+})
+
 
 module.exports = {
     allBlogs,
-    saveArticle
+    saveArticle,
+    updateArticle,
+    deleteArticle,
+    addCommentArticle
 }
