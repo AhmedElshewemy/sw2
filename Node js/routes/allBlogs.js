@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controlArticles = require("../controllers/controlArticle");
 const controlerUser = require("../controllers/controlerUser");
-
+const adminAuth=require("../middleware/adminAuth");
 
 //blogs
 router.get("/",controlArticles.allBlogs);
@@ -11,7 +11,7 @@ router.post("/",controlArticles.saveArticle);
 
 router.put("/:title",controlArticles.updateArticle);
 
-router.delete("/:title",controlArticles.deleteArticle);
+router.delete("/:title",adminAuth,controlArticles.deleteArticle);
 
 router.post("/addComment/:title",controlArticles.addCommentArticle);
 
@@ -20,7 +20,7 @@ router.post("/users",controlerUser.saveUser);
 
 router.get("/users",controlerUser.getAllUsers);
 
-router.delete("/users/:name",controlerUser.deleteUser);
+router.delete("/users/:name",adminAuth,controlerUser.deleteUser);
 
 router.put("/users/:name",controlerUser.updateUser);
 
