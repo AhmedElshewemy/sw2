@@ -21,6 +21,11 @@ router.delete("/:title",adminAuth,controlArticles.deleteArticle);
 //http://localhost:5000/articles/addComment/c
 router.post("/addComment/:title",controlArticles.addCommentArticle);
 
+//http://localhost:5000/articles/deleteComment/c
+router.post("/deleteComment/:title",controlArticles.deleteCommentArticle);
+
+
+
 //users
 
 http://localhost:5000/articles/users

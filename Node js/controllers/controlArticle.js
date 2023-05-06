@@ -66,6 +66,24 @@ const saveArticle =  (req, res) => {
 })
 
 
+const deleteCommentArticle=((req,res) => {
+  //  const newComment = { name: req.body.name, comment: req.body.comment };
+
+  // Article.updateOne
+    Article.findOneAndUpdate(
+     {title: req.params.title},{ $pull: { comments: req.body} },
+    )
+      .then(result => {
+       // console.log(result);
+        res.status(200).json("done");
+      })
+      .catch((error) => {
+        console.log(error);
+      });  
+
+})
+
+
   const deleteArticle=((req,res) => {
 
     // Article.updateOne(
@@ -90,5 +108,6 @@ module.exports = {
     saveArticle,
     updateArticle,
     deleteArticle,
-    addCommentArticle
+    addCommentArticle,
+    deleteCommentArticle
 }
